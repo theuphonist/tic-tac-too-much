@@ -7,62 +7,59 @@
     <style>
       .board {
         display: flex;
-        flex-direction: column;
-        width: 100px;
+        flex-wrap: wrap;
+        width: 150px;
+        height: 150px;
       }
-      .board-row {
+      .cell {
         display: flex;
+        width: 48px;
+        height: 48px;
+        align-items: center;
+        justify-content: center;
       }
-      .board-row div {
-        padding: 25px;
+      .top-left {
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
       }
-      .top-left-cell {
-        border-bottom: 1px solid black;
-        border-right: 1px solid black;
+      .top-middle {
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
       }
-      .top-middle-cell {
-        border-bottom: 1px solid black;
-        border-right: 1px solid black;
+      .top-right {
+        border-bottom: 2px solid black;
       }
-      .top-right-cell {
-        border-bottom: 1px solid black;
+      .center-left {
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
       }
-      .center-left-cell {
-        border-bottom: 1px solid black;
-        border-right: 1px solid black;
+      .center-middle {
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
       }
-      .center-middle-cell {
-        border-bottom: 1px solid black;
-        border-right: 1px solid black;
+      .center-right {
+        border-bottom: 2px solid black;
       }
-      .center-right-cell {
-        border-bottom: 1px solid black;
+      .bottom-left {
+        border-right: 2px solid black;
       }
-      .bottom-left-cell {
-        border-right: 1px solid black;
-      }
-      .bottom-middle-cell {
-        border-right: 1px solid black;
+      .bottom-middle {
+        border-right: 2px solid black;
       }
     </style>
+    <script src="tic-tac-too-much.js" defer></script>
   </head>
   <body>
     <div class="board">
-      <div class="board-row">
-        <div class="top-left-cell"></div>
-        <div class="top-middle-cell"></div>
-        <div class="top-right-cell"></div>
-      </div>
-      <div class="board-row">
-        <div class="center-left-cell"></div>
-        <div class="center-middle-cell"></div>
-        <div class="center-right-cell"></div>
-      </div>
-      <div class="board-row">
-        <div class="bottom-left-cell"></div>
-        <div class="bottom-middle-cell"></div>
-        <div class="bottom-right-cell"></div>
-      </div>
+      <div class="top-left cell"></div>
+      <div class="top-middle cell"></div>
+      <div class="top-right cell"></div>
+      <div class="center-left cell"></div>
+      <div class="center-middle cell"></div>
+      <div class="center-right cell"></div>
+      <div class="bottom-left cell"></div>
+      <div class="bottom-middle cell"></div>
+      <div class="bottom-right cell"></div>
     </div>
   </body>
 </html>
