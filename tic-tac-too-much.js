@@ -1,4 +1,4 @@
-const cells = document.getElementsByClassName("cell");
+const cells = Array.from(document.getElementsByClassName("cell"));
 const playerSymbols = ["X", "O"];
 const playerStatus = [0, 0];
 const winConditions = [
@@ -8,44 +8,35 @@ const winConditions = [
 
 let currentPlayer = 0;
 
-for (let i = 0; i < cells.length; i++) {
-  let cell = cells.item(i);
-
+cells.forEach((cell, position) => {
   cell.addEventListener("click", () => {
-    let position = i;
     cell.innerText = playerSymbols[currentPlayer];
-    playerStatus[currentPlayer] = playerStatus[currentPlayer] | (1 << position);
+    playerStatus[currentPlayer] |= 1 << position;
 
     if (checkWin(currentPlayer)) {
+      // use setTimeout to delay alert until after current player symbol displays on the board
       setTimeout(() => {
         alert(`${playerSymbols[currentPlayer]} Wins!`);
         clearBoard();
       }, 0);
+
       [playerStatus[0], playerStatus[1]] = [0, 0];
     } else {
       currentPlayer = getNextPlayer(currentPlayer);
     }
   });
-}
+});
 
 function checkWin(player) {
-  for (let condition of winConditions) {
-    if ((playerStatus[player] & condition) === condition) return true;
-  }
-  return false;
+  return winConditions.some(
+    (condition) => (playerStatus[player] & condition) === condition
+  );
 }
 
 function getNextPlayer(currentPlayer) {
-  if (currentPlayer === 0) return 1;
-  return 0;
-}
-
-function dec2bin(dec) {
-  return (dec >>> 0).toString(2);
+  return currentPlayer === 0 ? 1 : 0;
 }
 
 function clearBoard() {
-  for (let i = 0; i < cells.length; i++) {
-    cells.item(i).innerText = "";
-  }
+  cells.forEach((cell) => (cell.innerText = ""));
 }

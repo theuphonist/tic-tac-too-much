@@ -5,61 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac TOO MUCH</title>
     <style>
+      :root {
+        --game-board-border: 2px solid black;
+      }
       .board {
-        display: flex;
-        flex-wrap: wrap;
         width: 150px;
         height: 150px;
+        border-collapse: collapse;
+        table-layout: fixed;
       }
       .cell {
-        display: flex;
-        width: 48px;
-        height: 48px;
-        align-items: center;
-        justify-content: center;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        vertical-align: middle;
       }
-      .top-left {
-        border-bottom: 2px solid black;
-        border-right: 2px solid black;
+      .border-right {
+        border-right: var(--game-board-border);
       }
-      .top-middle {
-        border-bottom: 2px solid black;
-        border-right: 2px solid black;
-      }
-      .top-right {
-        border-bottom: 2px solid black;
-      }
-      .center-left {
-        border-bottom: 2px solid black;
-        border-right: 2px solid black;
-      }
-      .center-middle {
-        border-bottom: 2px solid black;
-        border-right: 2px solid black;
-      }
-      .center-right {
-        border-bottom: 2px solid black;
-      }
-      .bottom-left {
-        border-right: 2px solid black;
-      }
-      .bottom-middle {
-        border-right: 2px solid black;
+      .border-bottom {
+        border-bottom: var(--game-board-border);
       }
     </style>
     <script src="tic-tac-too-much.js" defer></script>
   </head>
   <body>
-    <div class="board">
-      <div class="top-left cell"></div>
-      <div class="top-middle cell"></div>
-      <div class="top-right cell"></div>
-      <div class="center-left cell"></div>
-      <div class="center-middle cell"></div>
-      <div class="center-right cell"></div>
-      <div class="bottom-left cell"></div>
-      <div class="bottom-middle cell"></div>
-      <div class="bottom-right cell"></div>
-    </div>
+    <table class="board">
+      <tr class="border-bottom">
+        <td class="cell border-right"></td>
+        <td class="cell border-right"></td>
+        <td class="cell"></td>
+      </tr>
+      <tr class="border-bottom">
+        <td class="cell border-right"></td>
+        <td class="cell border-right"></td>
+        <td class="cell"></td>
+      </tr>
+      <tr>
+        <td class="cell border-right"></td>
+        <td class="cell border-right"></td>
+        <td class="cell"></td>
+      </tr>
+    </table>
   </body>
 </html>
