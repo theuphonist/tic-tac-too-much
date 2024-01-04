@@ -26,26 +26,55 @@
       .border-bottom {
         border-bottom: var(--game-board-border);
       }
+      .game-area {
+        display: flex;
+        flex-direction: column;
+        width: 180px;
+        height: 250px;
+      }
+      .game-area table {
+        margin-bottom: auto;
+      }
+      .symbol-input {
+        margin-bottom: 3px;
+      }
+      input {
+        width: 50px;
+      }
+      #start-button {
+        width: auto;
+      }
     </style>
     <script src="tic-tac-too-much.js" defer></script>
   </head>
   <body>
-    <table class="board">
-      <tr class="border-bottom">
-        <td class="cell border-right"></td>
-        <td class="cell border-right"></td>
-        <td class="cell"></td>
-      </tr>
-      <tr class="border-bottom">
-        <td class="cell border-right"></td>
-        <td class="cell border-right"></td>
-        <td class="cell"></td>
-      </tr>
-      <tr>
-        <td class="cell border-right"></td>
-        <td class="cell border-right"></td>
-        <td class="cell"></td>
-      </tr>
-    </table>
+    <div class="game-area">
+      <table class="board">
+        <tr class="border-bottom">
+          <td class="cell border-right"></td>
+          <td class="cell border-right"></td>
+          <td class="cell"></td>
+        </tr>
+        <tr class="border-bottom">
+          <td class="cell border-right"></td>
+          <td class="cell border-right"></td>
+          <td class="cell"></td>
+        </tr>
+        <tr>
+          <td class="cell border-right"></td>
+          <td class="cell border-right"></td>
+          <td class="cell"></td>
+        </tr>
+      </table>
+      <div class="symbol-input">
+        <label for="player-one-symbol">Player 1 Symbol:</label>
+        <input type="text" id="player-one-symbol" />
+      </div>
+      <div class="symbol-input">
+        <label for="player-two-symbol">Player 2 Symbol:</label>
+        <input type="text" id="player-two-symbol" />
+      </div>
+      <input type="button" id="start-button" />
+    </div>
   </body>
 </html>

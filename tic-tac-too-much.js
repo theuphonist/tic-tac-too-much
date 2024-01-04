@@ -10,19 +10,21 @@ let currentPlayer = 0;
 
 cells.forEach((cell, position) => {
   cell.addEventListener("click", () => {
-    cell.innerText = playerSymbols[currentPlayer];
-    playerStatus[currentPlayer] |= 1 << position;
+    if (cell.innerText === "") {
+      cell.innerText = playerSymbols[currentPlayer];
+      playerStatus[currentPlayer] |= 1 << position;
 
-    if (checkWin(currentPlayer)) {
-      // use setTimeout to delay alert until after current player symbol displays on the board
-      setTimeout(() => {
-        alert(`${playerSymbols[currentPlayer]} Wins!`);
-        clearBoard();
-      }, 0);
+      if (checkWin(currentPlayer)) {
+        // use setTimeout to delay alert until after current player symbol displays on the board
+        setTimeout(() => {
+          alert(`${playerSymbols[currentPlayer]} Wins!`);
+          clearBoard();
+        }, 0);
 
-      [playerStatus[0], playerStatus[1]] = [0, 0];
-    } else {
-      currentPlayer = getNextPlayer(currentPlayer);
+        [playerStatus[0], playerStatus[1]] = [0, 0];
+      } else {
+        currentPlayer = getNextPlayer(currentPlayer);
+      }
     }
   });
 });
