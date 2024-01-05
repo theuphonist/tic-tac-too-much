@@ -55,6 +55,7 @@ cells.forEach((cell, position) => {
 });
 
 playButton.addEventListener("click", () => {
+  // use trim to remove whitespace in symbol names before comparing
   if (symbolInputs[0].value.trim() === symbolInputs[1].value.trim()) {
     alert("Players must have different symbols!");
   } else if (symbolInputs.some((symbol) => symbol.value.trim() === "")) {
