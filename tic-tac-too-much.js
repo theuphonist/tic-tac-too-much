@@ -16,7 +16,15 @@ const playerSymbols = ["X", "O"];
 
 class Player {
   constructor(symbol) {
-    this.symbol = symbol;
+    this._symbol = symbol;
+  }
+
+  get symbol() {
+    return this._symbol;
+  }
+
+  set symbol(symbol) {
+    this._symbol = symbol;
   }
 }
 
@@ -33,7 +41,6 @@ class TicTacToeBoard {
     this.cells = Array.from(this.HTMLElement.querySelectorAll("td"));
     this.cells.forEach((cell, position) => {
       cell.addEventListener("click", () => {
-        console.log(this.currentPlayer);
         if (cell.innerText === "" && this.isInProgress) {
           cell.innerText = playerSymbols[this.currentPlayer];
           this.playerStatuses[this.currentPlayer] |= 1 << position;
@@ -105,12 +112,67 @@ class TicTacToeBoard {
 }
 
 class TicTacToeGame {
-  constructor() {}
+  constructor() {
+    this.players = [new Player("X"), new Player("O")];
+    this.boards = [new TicTacToeBoard(false)];
+    this.isInProgress = false;
+    this.maxBoardCount = 20;
+
+    this.setupBlock = document.querySelector("#setup-block");
+
+    this.playButton = document.getElementById("play-button");
+    this.playButton.addEventListener("click", () => {
+      this.startGame();
+    });
+
+    this.playerOneSymbolInput = document.getElementById(
+      "player-one-symbol-input"
+    );
+
+    this.playerTwoSymbolInput = document.getElementById(
+      "player-two-symbol-input"
+    );
+
+    this.turnTimerInput = document.getElementById("turn-timer-input");
+
+    this.boardCountInput = document.getElementById("board-count-input");
+    this.boardCountInput.addEventListener("input", () => {
+      let boardCount = +this.boardCountInput.value;
+      if (!isNaN(boardCount)) {
+        if (boardCount > this.maxBoardCount) boardCount = this.maxBoardCount;
+        else if (boardCount < 1) boardCount = 1;
+        if (boardCount > this.boards.length) {
+          for (let i = this.boards.length; i < boardCount; i++) {
+            this.boards.push(new TicTacToeBoard(true));
+          }
+        } else if (boardCount < this.boards.length && boardCount >= 1) {
+          console.log("removing...");
+          this.boards
+            .splice(boardCount, this.boards.length - boardCount)
+            .forEach((board) => board.HTMLElement.remove());
+        }
+      }
+    });
+  }
+
+  hideSetup() {
+    this.setupBlock.style.display = "none";
+  }
+
+  showSetup() {
+    this.setupBlock.style.display = "flex";
+  }
+
+  startGame() {}
 }
 
-const board = new TicTacToeBoard(false);
-const board1 = new TicTacToeBoard(true);
-board1.generateHTML();
+const game = new TicTacToeGame();
+let setupVisible = false;
+document.getElementById("TEST-BUTTON").addEventListener("click", () => {
+  setupVisible = !setupVisible;
+  if (setupVisible) game.showSetup();
+  else game.hideSetup();
+});
 
 // const cells = Array.from(document.getElementsByClassName("cell"));
 // const symbolInputGroup = document

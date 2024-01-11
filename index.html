@@ -7,7 +7,6 @@
     <style>
       :root {
         --game-board-border: 2px solid black;
-        --game-area-width: 100%;
       }
       .board {
         width: 150px;
@@ -30,14 +29,24 @@
       }
       .game-area {
         display: flex;
-        flex-direction: column;
-        width: var(--game-area-width);
+        flex-wrap: wrap;
         height: 250px;
       }
       .game-area table {
         margin-bottom: auto;
       }
-      .symbol-input-group div {
+      #setup-block {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        padding: 10px;
+        border: 1px solid rgb(36, 36, 36);
+        background-color: rgba(218, 218, 218, 0.95);
+      }
+      #setup-block div {
         margin-bottom: 3px;
       }
       input {
@@ -46,10 +55,35 @@
       #play-button {
         width: 100%;
       }
+      #TEST-BUTTON {
+        position: absolute;
+        top: 500px;
+        left: 10px;
+        width: 50px;
+      }
     </style>
     <script src="tic-tac-too-much.js" defer></script>
   </head>
   <body>
+    <div id="setup-block">
+      <div>
+        <label for="player-one-symbol-input">Player 1 Symbol:</label>
+        <input type="text" id="player-one-symbol-input" class="setup-input" />
+      </div>
+      <div>
+        <label for="player-two-symbol-input">Player 2 Symbol:</label>
+        <input type="text" id="player-two-symbol-input" class="setup-input" />
+      </div>
+      <div>
+        <label for="turn-timer-input">Turn Timer:</label>
+        <input type="text" id="turn-timer-input" class="setup-input" />
+      </div>
+      <div>
+        <label for="board-count-input">Number of Boards:</label>
+        <input type="text" id="board-count-input" class="setup-input" />
+      </div>
+      <button id="play-button">Let's Play!</button>
+    </div>
     <div class="game-area">
       <table class="board">
         <tr class="border-bottom">
@@ -68,17 +102,7 @@
           <td></td>
         </tr>
       </table>
-      <div class="symbol-input-group">
-        <div>
-          <label for="player-one-symbol">Player 1 Symbol:</label>
-          <input type="text" id="player-one-symbol" class="symbol-input" />
-        </div>
-        <div>
-          <label for="player-two-symbol">Player 2 Symbol:</label>
-          <input type="text" id="player-two-symbol" class="symbol-input" />
-        </div>
-        <button id="play-button">Let's Play!</button>
-      </div>
     </div>
+    <button id="TEST-BUTTON">TEST</button>
   </body>
 </html>
