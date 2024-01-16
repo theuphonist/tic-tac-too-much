@@ -1,6 +1,5 @@
 /* TO DO:
-    - Create game class
-    - Update symbol functionality to apply to all board objects
+    - Add logic to show shroud after a game ends
     - Add logic to determine who wins the overall game by counting who won each board
     - Add logic for turn timer on each board
     - Add logic for symbol input that grays out background and gives setup options
@@ -11,8 +10,6 @@ const winConditions = [
   0b111000000, 0b000111000, 0b000000111, 0b100100100, 0b010010010, 0b001001001,
   0b100010001, 0b001010100,
 ];
-
-const playerSymbols = ["X", "O"];
 
 class Player {
   constructor(symbol) {
@@ -29,37 +26,35 @@ class Player {
 }
 
 class TicTacToeBoard {
-  constructor(isNewHTML) {
+  constructor(isNewHTML, ...playerSymbols) {
     // only create new HTML elements if this is a new board
     if (isNewHTML) {
-      this.HTMLElement = document.querySelector(".board").cloneNode(true);
+      this.HTMLElement = document.querySelector(".board-area").cloneNode(true);
       this.generateHTML();
     } else {
-      this.HTMLElement = document.querySelector(".board");
+      this.HTMLElement = document.querySelector(".board-area");
     }
 
     this.cells = Array.from(this.HTMLElement.querySelectorAll("td"));
     this.cells.forEach((cell, position) => {
       cell.addEventListener("click", () => {
         if (cell.innerText === "" && this.isInProgress) {
-          cell.innerText = playerSymbols[this.currentPlayer];
+          cell.innerText = this.playerSymbols[this.currentPlayer];
           this.playerStatuses[this.currentPlayer] |= 1 << position;
 
           if (this.checkWin()) {
-            // this.isInProgress = false;
+            this.isInProgress = false;
 
             // use setTimeout to delay alert until after current player symbol displays on the board
             setTimeout(() => {
-              alert(`${playerSymbols[this.currentPlayer]} Wins!`);
+              alert(`${this.playerSymbols[this.currentPlayer]} Wins!`);
               this.currentPlayer = 0;
               this.clearBoard();
             }, 0);
 
-            // showElement(symbolInputGroup);
-
             [this.playerStatuses[0], this.playerStatuses[1]] = [0, 0];
           } else if (this.checkDraw()) {
-            // this.isInProgress = false;
+            this.isInProgress = false;
 
             // use setTimeout to delay alert until after current player symbol displays on the board
             setTimeout(() => {
@@ -70,8 +65,6 @@ class TicTacToeBoard {
 
             this.currentPlayer = 0;
 
-            // showElement(symbolInputGroup);
-
             [this.playerStatuses[0], this.playerStatuses[1]] = [0, 0];
           } else {
             this.currentPlayer = this.getNextPlayer();
@@ -81,7 +74,8 @@ class TicTacToeBoard {
     });
 
     this.playerStatuses = [0, 0];
-    this.isInProgress = true;
+    this.playerSymbols = playerSymbols;
+    this.isInProgress = false;
     this.currentPlayer = 0;
   }
 
@@ -106,7 +100,7 @@ class TicTacToeBoard {
 
   generateHTML() {
     document
-      .querySelector(".game-area table:last-of-type")
+      .querySelector(".game-area .board-area:last-of-type")
       .after(this.HTMLElement);
   }
 }
@@ -114,8 +108,7 @@ class TicTacToeBoard {
 class TicTacToeGame {
   constructor() {
     this.players = [new Player("X"), new Player("O")];
-    this.boards = [new TicTacToeBoard(false)];
-    this.isInProgress = false;
+    this.boards = [new TicTacToeBoard(false, "", "")];
     this.maxBoardCount = 20;
 
     this.setupBlock = document.querySelector("#setup-block");
@@ -125,13 +118,10 @@ class TicTacToeGame {
       this.startGame();
     });
 
-    this.playerOneSymbolInput = document.getElementById(
-      "player-one-symbol-input"
-    );
-
-    this.playerTwoSymbolInput = document.getElementById(
-      "player-two-symbol-input"
-    );
+    this.symbolInputs = [
+      document.getElementById("player-one-symbol-input"),
+      document.getElementById("player-two-symbol-input"),
+    ];
 
     this.turnTimerInput = document.getElementById("turn-timer-input");
 
@@ -141,12 +131,12 @@ class TicTacToeGame {
       if (!isNaN(boardCount)) {
         if (boardCount > this.maxBoardCount) boardCount = this.maxBoardCount;
         else if (boardCount < 1) boardCount = 1;
+
         if (boardCount > this.boards.length) {
           for (let i = this.boards.length; i < boardCount; i++) {
-            this.boards.push(new TicTacToeBoard(true));
+            this.boards.push(new TicTacToeBoard(true, "", ""));
           }
         } else if (boardCount < this.boards.length && boardCount >= 1) {
-          console.log("removing...");
           this.boards
             .splice(boardCount, this.boards.length - boardCount)
             .forEach((board) => board.HTMLElement.remove());
@@ -163,17 +153,39 @@ class TicTacToeGame {
     this.setupBlock.style.display = "flex";
   }
 
-  startGame() {}
+  startGame() {
+    if (!this.checkDuplicateSymbols()) {
+      this.players[0].symbol = this.symbolInputs[0].value;
+      this.players[1].symbol = this.symbolInputs[1].value;
+
+      this.boards.forEach((board) => {
+        board.playerSymbols = [this.players[0].symbol, this.players[1].symbol];
+        board.isInProgress = true;
+      });
+
+      this.hideSetup();
+    }
+  }
+
+  checkDuplicateSymbols() {
+    if (
+      this.symbolInputs[0].value.trim() === this.symbolInputs[1].value.trim()
+    ) {
+      alert("Players must have different symbols!");
+      return true;
+    } else if (this.symbolInputs.some((symbol) => symbol.value.trim() === "")) {
+      alert("Player symbol cannot be empty!");
+      return true;
+    }
+
+    return false;
+  }
 }
 
 const game = new TicTacToeGame();
-let setupVisible = false;
 document.getElementById("TEST-BUTTON").addEventListener("click", () => {
-  setupVisible = !setupVisible;
-  if (setupVisible) game.showSetup();
-  else game.hideSetup();
+  document.querySelector(".board-area div").style.display = "none";
 });
-
 // const cells = Array.from(document.getElementsByClassName("cell"));
 // const symbolInputGroup = document
 //   .getElementsByClassName("symbol-input-group")

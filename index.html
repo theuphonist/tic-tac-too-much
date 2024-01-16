@@ -7,17 +7,18 @@
     <style>
       :root {
         --game-board-border: 2px solid black;
+        --game-board-side: 150px;
       }
       .board {
-        width: 150px;
-        height: 150px;
+        width: var(--game-board-side);
+        height: var(--game-board-side);
         margin: 10px;
         border-collapse: collapse;
         table-layout: fixed;
       }
       .board td {
-        width: 50px;
-        height: 50px;
+        width: calc(var(--game-board-side) / 3);
+        height: calc(var(--game-board-side) / 3);
         text-align: center;
         vertical-align: middle;
       }
@@ -32,8 +33,17 @@
         flex-wrap: wrap;
         height: 250px;
       }
-      .game-area table {
+      .board-area {
+        display: flex;
+        position: relative;
         margin-bottom: auto;
+      }
+      .board-area div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        background-color: bisque;
       }
       #setup-block {
         display: flex;
@@ -65,6 +75,28 @@
     <script src="tic-tac-too-much.js" defer></script>
   </head>
   <body>
+    <div class="game-area">
+      <div class="board-area">
+        <table class="board">
+          <tr class="border-bottom">
+            <td class="border-right"></td>
+            <td class="border-right"></td>
+            <td></td>
+          </tr>
+          <tr class="border-bottom">
+            <td class="border-right"></td>
+            <td class="border-right"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="border-right"></td>
+            <td class="border-right"></td>
+            <td></td>
+          </tr>
+        </table>
+        <div class="board-shroud"></div>
+      </div>
+    </div>
     <div id="setup-block">
       <div>
         <label for="player-one-symbol-input">Player 1 Symbol:</label>
@@ -83,25 +115,6 @@
         <input type="text" id="board-count-input" class="setup-input" />
       </div>
       <button id="play-button">Let's Play!</button>
-    </div>
-    <div class="game-area">
-      <table class="board">
-        <tr class="border-bottom">
-          <td class="border-right"></td>
-          <td class="border-right"></td>
-          <td></td>
-        </tr>
-        <tr class="border-bottom">
-          <td class="border-right"></td>
-          <td class="border-right"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td class="border-right"></td>
-          <td class="border-right"></td>
-          <td></td>
-        </tr>
-      </table>
     </div>
     <button id="TEST-BUTTON">TEST</button>
   </body>
