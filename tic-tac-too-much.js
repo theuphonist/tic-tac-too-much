@@ -1,5 +1,5 @@
 /* TO DO:
-    - Add logic to show shroud after a game ends
+    - Add logic to determine when a full game is over and show the setup block again
     - Add logic to determine who wins the overall game by counting who won each board
     - Add logic for turn timer on each board
     - Add logic for symbol input that grays out background and gives setup options
@@ -13,7 +13,7 @@ const winConditions = [
 
 class Player {
   constructor(symbol) {
-    this._symbol = symbol;
+    this.symbol = symbol;
   }
 
   get symbol() {
@@ -44,24 +44,26 @@ class TicTacToeBoard {
 
           if (this.checkWin()) {
             this.isInProgress = false;
+            this.showShroud(this.playerSymbols[this.currentPlayer] + " wins!");
 
-            // use setTimeout to delay alert until after current player symbol displays on the board
-            setTimeout(() => {
-              alert(`${this.playerSymbols[this.currentPlayer]} Wins!`);
-              this.currentPlayer = 0;
-              this.clearBoard();
-            }, 0);
+            // // use setTimeout to delay alert until after current player symbol displays on the board
+            // setTimeout(() => {
+            //   alert(`${this.playerSymbols[this.currentPlayer]} Wins!`);
+            this.currentPlayer = 0;
+            // this.clearBoard();
+            // }, 0);
 
             [this.playerStatuses[0], this.playerStatuses[1]] = [0, 0];
           } else if (this.checkDraw()) {
             this.isInProgress = false;
+            this.showShroud("It's a draw!");
 
-            // use setTimeout to delay alert until after current player symbol displays on the board
-            setTimeout(() => {
-              alert(`It's a draw!`);
-              this.currentPlayer = 0;
-              this.clearBoard();
-            }, 0);
+            // // use setTimeout to delay alert until after current player symbol displays on the board
+            // setTimeout(() => {
+            //   alert(`It's a draw!`);
+            this.currentPlayer = 0;
+            //   this.clearBoard();
+            // }, 0);
 
             this.currentPlayer = 0;
 
@@ -102,6 +104,16 @@ class TicTacToeBoard {
     document
       .querySelector(".game-area .board-area:last-of-type")
       .after(this.HTMLElement);
+  }
+
+  hideShroud() {
+    this.HTMLElement.querySelector(".board-area div").style.display = "none";
+  }
+
+  showShroud(text) {
+    let shroudElement = this.HTMLElement.querySelector(".board-area div");
+    shroudElement.style.display = "flex";
+    shroudElement.innerText = text;
   }
 }
 
@@ -161,6 +173,8 @@ class TicTacToeGame {
       this.boards.forEach((board) => {
         board.playerSymbols = [this.players[0].symbol, this.players[1].symbol];
         board.isInProgress = true;
+        board.clearBoard();
+        board.hideShroud();
       });
 
       this.hideSetup();
