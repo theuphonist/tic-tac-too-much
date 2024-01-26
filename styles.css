@@ -1,0 +1,68 @@
+:root {
+  --game-board-border: 2px solid black;
+  --game-board-side: 150px;
+  --game-board-spacing: 20px;
+}
+.board {
+  width: var(--game-board-side);
+  height: var(--game-board-side);
+  margin: calc(var(--game-board-spacing) / 2);
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.board td {
+  width: 33%;
+  height: 33%;
+  text-align: center;
+  vertical-align: middle;
+}
+.border-right {
+  border-right: var(--game-board-border);
+}
+.border-bottom {
+  border-bottom: var(--game-board-border);
+}
+.game-area {
+  display: flex;
+  flex-wrap: wrap;
+  height: 250px;
+}
+.board-area {
+  display: flex;
+  position: relative;
+  margin-bottom: auto;
+}
+.board-area div {
+  display: none; /* shroud is hidden by default and only changed from js */
+  position: absolute;
+  top: calc(var(--game-board-spacing) / 4);
+  left: calc(var(--game-board-spacing) / 4);
+  width: calc(var(--game-board-side) + var(--game-board-spacing) / 2);
+  height: calc(var(--game-board-side) + var(--game-board-spacing) / 2);
+  border: 1px solid black;
+  background-color: rgba(200, 200, 200, 0.9);
+  justify-content: center;
+  align-items: center;
+  font-size: 150%;
+  font-weight: bold;
+}
+#setup-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  padding: 10px;
+  border: 1px solid rgb(36, 36, 36);
+  background-color: rgba(218, 218, 218, 0.95);
+}
+#setup-block div {
+  margin-bottom: 3px;
+}
+input {
+  width: 50px;
+}
+#play-button {
+  width: 100%;
+}
