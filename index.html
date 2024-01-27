@@ -30,7 +30,7 @@
         <div class="board-shroud">5</div>
       </div>
     </div>
-    <div id="setup-block">
+    <div id="setup-block" class="overlay-block">
       <div>
         <label for="player-one-symbol-input">Player 1 Symbol:</label>
         <input type="text" id="player-one-symbol-input" class="setup-input" />
@@ -48,6 +48,11 @@
         <input type="text" id="board-count-input" class="setup-input" />
       </div>
       <button id="play-button">Let's Play!</button>
+    </div>
+    <div id="game-over-block" class="overlay-block">
+      <div>Game Over</div>
+      <div style="font: bold 40px black">X Wins!</div>
+      <button id="new-game-button">New Game</button>
     </div>
   </body>
 </html>

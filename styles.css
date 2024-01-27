@@ -46,11 +46,13 @@
   font-size: 150%;
   font-weight: bold;
 }
-#setup-block {
+.overlay-block {
   display: flex;
+  position: absolute;
+}
+#setup-block {
   flex-direction: column;
   align-items: flex-end;
-  position: absolute;
   top: 25px;
   left: 25px;
   padding: 10px;
@@ -65,4 +67,16 @@ input {
 }
 #play-button {
   width: 100%;
+}
+#game-over-block {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  top: 25px;
+  left: 25px;
+  height: 200px;
+  width: 200px;
+  padding: 10px;
+  border: 1px solid rgb(36, 36, 36);
+  background-color: rgba(218, 218, 218, 0.95);
 }

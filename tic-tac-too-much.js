@@ -58,29 +58,15 @@ class TicTacToeBoard {
             );
 
             this.parentGame.addWin(this.currentPlayer);
-            this.parentGame.checkOverallWin();
-
-            // // use setTimeout to delay alert until after current player symbol displays on the board
-            // setTimeout(() => {
-            //   alert(`${this.playerSymbols[this.currentPlayer]} Wins!`);
             this.currentPlayer = 0;
-            // this.clearBoard();
-            // }, 0);
 
             [this.playerStatuses[0], this.playerStatuses[1]] = [0, 0];
           } else if (this.checkDraw()) {
             this.isInProgress = false;
             this.showShroud("It's a draw!", "rgba(200, 200, 200, 0.9)");
 
-            this.parentGame.addDraw(this.currentPlayer);
-            this.parentGame.checkOverallWin();
-
-            // // use setTimeout to delay alert until after current player symbol displays on the board
-            // setTimeout(() => {
-            //   alert(`It's a draw!`);
+            this.parentGame.addDraw();
             this.currentPlayer = 0;
-            //   this.clearBoard();
-            // }, 0);
 
             this.currentPlayer = 0;
 
@@ -220,10 +206,12 @@ class TicTacToeGame {
 
   addWin(playerIndex) {
     this.wins[playerIndex]++;
+    this.checkOverallWin();
   }
 
   addDraw() {
     this.draws++;
+    this.checkOverallWin();
   }
 
   checkOverallWin() {
