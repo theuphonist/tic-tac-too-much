@@ -50,7 +50,7 @@ class TicTacToeBoard {
           cell.innerText = this.parentGame.players[this.currentPlayer].symbol;
           this.playerStatuses[this.currentPlayer] |= 1 << position;
 
-          if (this.checkWin()) {
+          if (this.checkBoardWin()) {
             this.isInProgress = false;
             this.showShroud(
               this.parentGame.players[this.currentPlayer].symbol + " wins!",
@@ -84,7 +84,7 @@ class TicTacToeBoard {
     this.currentPlayer = 0;
   }
 
-  checkWin() {
+  checkBoardWin() {
     return winConditions.some(
       (condition) =>
         (this.playerStatuses[this.currentPlayer] & condition) === condition
@@ -163,6 +163,18 @@ class TicTacToeGame {
       }
     });
 
+    document.getElementById("new-game-button").addEventListener("click", () => {
+      this.boards.forEach((board) => {
+        board.clearBoard();
+        board.hideShroud();
+      });
+
+      this.hideGameOverBlock();
+      this.showSetup();
+      this.wins = [0, 0];
+      this.draws = 0;
+    });
+
     this.wins = [0, 0];
     this.draws = 0;
   }
@@ -182,8 +194,6 @@ class TicTacToeGame {
 
       this.boards.forEach((board) => {
         board.isInProgress = true;
-        board.clearBoard();
-        board.hideShroud();
       });
 
       this.hideSetup();
@@ -216,11 +226,30 @@ class TicTacToeGame {
 
   checkOverallWin() {
     let availableWins = this.boards.length - this.draws;
+
     if (this.wins[0] > availableWins / 2) {
-      console.log("Player 1 wins!");
+      this.boards.forEach((board) => (board.isInProgress = false));
+      this.showGameOverBlock(this.players[0].symbol + " wins!");
     } else if (this.wins[1] > availableWins / 2) {
-      console.log("Player 2 wins!");
+      this.boards.forEach((board) => (board.isInProgress = false));
+      this.showGameOverBlock(this.players[1].symbol + " wins!");
+    } else if (
+      this.boards.length - this.draws - this.wins[0] - this.wins[1] ===
+      0
+    ) {
+      this.showGameOverBlock("It's a draw!");
     }
+  }
+
+  hideGameOverBlock() {
+    document.getElementById("game-over-outer-block").style.display = "none";
+  }
+
+  showGameOverBlock(text) {
+    let gameOverBlockElement = document.getElementById("game-over-outer-block");
+    gameOverBlockElement.style.display = "flex";
+    gameOverBlockElement.querySelector("#game-over-winner-text").innerText =
+      text;
   }
 }
 

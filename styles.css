@@ -3,6 +3,9 @@
   --game-board-side: 150px;
   --game-board-spacing: 20px;
 }
+body {
+  font-family: sans-serif;
+}
 .board {
   width: var(--game-board-side);
   height: var(--game-board-side);
@@ -46,11 +49,9 @@
   font-size: 150%;
   font-weight: bold;
 }
-.overlay-block {
+#setup-block {
   display: flex;
   position: absolute;
-}
-#setup-block {
   flex-direction: column;
   align-items: flex-end;
   top: 25px;
@@ -68,15 +69,24 @@ input {
 #play-button {
   width: 100%;
 }
-#game-over-block {
+#game-over-outer-block {
+  display: none; /* game over block is hidden by default and only changed from js */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  top: 25px;
-  left: 25px;
-  height: 200px;
-  width: 200px;
+  justify-content: center;
   padding: 10px;
-  border: 1px solid rgb(36, 36, 36);
-  background-color: rgba(218, 218, 218, 0.95);
+  background-color: rgba(218, 218, 218, 0.7);
+}
+#game-over-inner-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 150px;
+  width: 200px;
 }
