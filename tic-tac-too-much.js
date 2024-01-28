@@ -53,7 +53,7 @@ class TicTacToeBoard {
           if (this.checkBoardWin()) {
             this.isInProgress = false;
             this.showShroud(
-              this.parentGame.players[this.currentPlayer].symbol + " wins!",
+              this.parentGame.players[this.currentPlayer].symbol,
               this.parentGame.players[this.currentPlayer].color
             );
 
@@ -63,7 +63,7 @@ class TicTacToeBoard {
             [this.playerStatuses[0], this.playerStatuses[1]] = [0, 0];
           } else if (this.checkDraw()) {
             this.isInProgress = false;
-            this.showShroud("It's a draw!", "rgba(200, 200, 200, 0.9)");
+            this.showShroud("Draw", "rgba(200, 200, 200, 0.9)");
 
             this.parentGame.addDraw();
             this.currentPlayer = 0;
